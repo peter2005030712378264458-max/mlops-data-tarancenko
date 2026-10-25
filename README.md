@@ -44,14 +44,17 @@ poetry run dvc remote modify --local storage url /path/to/dvc-remote-tarancenko
 Переключение на базовую версию и обратно:
 
 ```bash
-poetry run dvc fetch --all-tags
 git switch --detach data-v1
-poetry run dvc checkout
+poetry run dvc remote add --local --force -d recovery ../dvc-remote-tarancenko
+poetry run dvc pull
 poetry run python check_data.py --version base
 git switch main
 poetry run dvc checkout
 poetry run python check_data.py
 ```
+
+Тег `data-v1` создан до настройки remote. Поэтому для него адрес хранилища
+задаётся в локальной конфигурации, которая не меняется при переключении Git.
 
 Настройка merge driver в новом клоне:
 
