@@ -7,7 +7,6 @@
 ```bash
 poetry env use python3.12
 poetry install
-poetry run python -m unittest -v
 ```
 
 ## Данные
