@@ -1,0 +1,9 @@
+/data/
+/.venv/
+/clearml.conf
+/.env
+/downloads/
+/clearml_sources/
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store

@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "mlops-data-tarancenko"
+version = "0.1.0"
+description = "Версионирование Iris и Wine с DVC и ClearML"
+authors = ["Petr Tarancenko"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+dvc = "3.63.0"
+clearml = "2.0.2"
+scikit-learn = "1.7.2"
+pandas = "2.3.3"
+numpy = "2.2.6"
+pathspec = "0.12.1"
+
+[tool.poetry.group.dev.dependencies]
+nbclient = "0.10.2"
+ipykernel = "6.30.1"
