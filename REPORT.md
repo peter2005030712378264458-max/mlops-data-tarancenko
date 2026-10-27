@@ -10,7 +10,7 @@ Python 3.12.12, DVC 3.63.0, ClearML SDK 2.0.2, scikit-learn 1.7.2, pandas 2.3.3,
 Для совместимости с DVC закреплён `pathspec==0.12.1`.
 
 Локальный Git-репозиторий: `mlops-data-tarancenko`, основная ветка — `main`.
-Удалённый Git пока не подключён. Ссылку нужно добавить после публикации репозитория.
+Репозиторий: https://github.com/peter2005030712378264458-max/mlops-data-tarancenko.
 
 ## Подготовка данных
 
