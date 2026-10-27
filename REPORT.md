@@ -5,6 +5,7 @@
 ## Окружение
 
 Python 3.12.12, DVC 3.63.0, ClearML SDK 2.0.2, scikit-learn 1.7.2, pandas 2.3.3, NumPy 2.2.6.
+Часть ClearML выполнена на macOS с Python 3.12.16; версии библиотек те же.
 Версии зависимостей закреплены в `pyproject.toml` и `poetry.lock`.
 Для совместимости с DVC закреплён `pathspec==0.12.1`.
 
@@ -96,27 +97,76 @@ DVC remote `storage` — папка `../dvc-remote-tarancenko` относите�
 
 ## ClearML
 
-Для выполнения подготовлен `clearml_versions.py`. Его нужно запустить на Mac
-после настройки `clearml-init`. Dataset IDs и результаты проверок появятся здесь
-после запуска. На момент подготовки скрипта Dataset ещё не создавались.
+BASE_ID: `b4156b9053fa49298a71914dc3fbc80b`
+
+WINE_ID: `ea0c7a9221834085b381323ab3ca2b63`
+
+IRIS_FEATURES_ID: `508444d8ba57468c99daae8d919148b7`
+
+### Версия 1.0.0
+
+Dataset ID: `b4156b9053fa49298a71914dc3fbc80b`. Статус: Completed.
+Parent IDs: `[]`.
+Files: `["iris.csv"]`.
+Added: `["iris.csv"]`; modified: `[]`; removed: `[]`.
+Dependency graph: `{"b4156b9053fa49298a71914dc3fbc80b": []}`.
+Скачано в `downloads/20261027-171847/base`. Проверка данных и SHA-256 пройдена.
+
+| Файл | Форма | SHA-256 |
+|---|---|---|
+| base/iris.csv | 150 × 5 | `6d700503c9c2e2c71d187b889a87af8a8d3a6dd5bae1266d46f4ee4db5a6349f` |
+
+Столбцы `base/iris.csv`: sepal length (cm), sepal width (cm), petal length (cm), petal width (cm), target.
+
+### Версия 1.1.0
+
+Dataset ID: `ea0c7a9221834085b381323ab3ca2b63`. Статус: Completed.
+Parent IDs: `["b4156b9053fa49298a71914dc3fbc80b"]`.
+Files: `["iris.csv", "wine.csv"]`.
+Added: `["wine.csv"]`; modified: `[]`; removed: `[]`.
+Dependency graph: `{"b4156b9053fa49298a71914dc3fbc80b": [], "ea0c7a9221834085b381323ab3ca2b63": ["b4156b9053fa49298a71914dc3fbc80b"]}`.
+Скачано в `downloads/20261027-171847/wine`. Проверка данных и SHA-256 пройдена.
+
+| Файл | Форма | SHA-256 |
+|---|---|---|
+| wine/iris.csv | 150 × 5 | `6d700503c9c2e2c71d187b889a87af8a8d3a6dd5bae1266d46f4ee4db5a6349f` |
+| wine/wine.csv | 178 × 14 | `38860ba04ace4d402242340bcf40be4bd6f4ebde9144a3dc89dc12c20f7f8e60` |
+
+Столбцы `wine/iris.csv`: sepal length (cm), sepal width (cm), petal length (cm), petal width (cm), target.
+
+Столбцы `wine/wine.csv`: alcohol, malic_acid, ash, alcalinity_of_ash, magnesium, total_phenols, flavanoids, nonflavanoid_phenols, proanthocyanins, color_intensity, hue, od280/od315_of_diluted_wines, proline, target.
+
+### Версия 2.0.0
+
+Dataset ID: `508444d8ba57468c99daae8d919148b7`. Статус: Completed.
+Parent IDs: `["b4156b9053fa49298a71914dc3fbc80b"]`.
+Files: `["iris.csv"]`.
+Added: `[]`; modified: `["iris.csv"]`; removed: `[]`.
+Dependency graph: `{"508444d8ba57468c99daae8d919148b7": ["b4156b9053fa49298a71914dc3fbc80b"]}`.
+Скачано в `downloads/20261027-171847/iris_features`. Проверка данных и SHA-256 пройдена.
+
+| Файл | Форма | SHA-256 |
+|---|---|---|
+| iris_features/iris.csv | 150 × 7 | `3e1ba63f55da2aabc432d00b1670140f5162bf9ef34b837598ec2fc176c9ff26` |
+
+Столбцы `iris_features/iris.csv`: sepal length (cm), sepal width (cm), petal length (cm), petal width (cm), target, sepal_area, petal_area.
 
 ## Сравнение
 
-Наблюдения DVC получены при выполнении. Столбец ClearML приведён справочно:
-проверку на сервере ещё нужно выполнить.
+Версии ClearML созданы, скачаны по ID и проверены. Результаты приведены выше.
 
-| Свойство | DVC: наблюдение | ClearML: справочно |
+| Свойство | DVC: наблюдение | ClearML: наблюдение |
 |---|---|---|
-| Идентификатор версии | Четыре Git tag указывают на коммиты с разными `data.dvc` | Dataset ID; version — читаемая метка |
-| Метаданные | `data.dvc` сохранён в каждом коммите | ClearML Server |
-| Файлы | Объекты записаны в cache и соседний remote | File Server или внешний storage |
-| Дочерняя версия | `dvc add` и отдельный коммит в ветке Wine | Новый Dataset с parent ID |
-| Переключение | После `git switch main` потребовался `dvc checkout` | Получение Dataset по ID |
-| Чистая машина | Клон без данных восстановлен через `dvc pull` | Скачивание по ID при доступном storage |
-| Ветвление | Wine и признаки Iris развивались в двух Git-ветках | Две версии с одним parent |
-| Слияние | DVC merge driver объединил два изменения; сохранён merge-коммит | Отдельный Dataset с несколькими parents или подготовленным результатом |
-| Связь с Git | Теги закрепляют состояние `data.dvc` вместе с кодом | Git-коммит можно записать отдельно в метаданные |
-| UI | В работе использовался CLI, отдельный UI не разворачивался | Web UI показывает версии и lineage |
+| Идентификатор версии | Четыре Git tag указывают на коммиты с разными `data.dvc` | Получены три разных ID для 1.0.0, 1.1.0 и 2.0.0 |
+| Метаданные | `data.dvc` сохранён в каждом коммите | Списки файлов и parent IDs получены через Dataset.get по ID |
+| Файлы | Объекты записаны в cache и соседний remote | Файлы загружены через upload и получены в пустые папки |
+| Дочерняя версия | `dvc add` и отдельный коммит в ветке Wine | Версия Wine создана с BASE_ID и загрузкой только wine.csv |
+| Переключение | После `git switch main` потребовался `dvc checkout` | Все три версии запрошены по сохранённым ID после создания 2.0.0 |
+| Чистая машина | Клон без данных восстановлен через `dvc pull` | Копии скачаны в новые папки; отдельная машина не проверялась |
+| Ветвление | Wine и признаки Iris развивались в двух Git-ветках | Обе дочерние версии имеют единственного родителя BASE_ID |
+| Слияние | DVC merge driver объединил два изменения; сохранён merge-коммит | Слияние не выполнялось; проверены две независимые ветви |
+| Связь с Git | Теги закрепляют состояние `data.dvc` вместе с кодом | Версии получены по ID без переключения Git |
+| UI | В работе использовался CLI, отдельный UI не разворачивался | SDK вывел ссылки на созданные Dataset; UI проверяется отдельно |
 
 ## Выводы
 
@@ -127,8 +177,8 @@ DVC remote `storage` — папка `../dvc-remote-tarancenko` относите�
 3. ClearML version — понятный человеку номер; Dataset ID — уникальный идентификатор объекта.
 4. `finalize()` закрывает текущий Dataset. Следующий создаётся отдельно с указанием parent.
 5. Нужно проверить, что единственный прямой parent `2.0.0` — `BASE_ID`,
-   а `WINE_ID` отсутствует среди её предков. В этой работе такая проверка пока не выполнялась.
+   а `WINE_ID` отсутствует среди её предков. Проверка выполнена по dependency graph скачанной версии.
 6. Без `dvc checkout` workspace может содержать данные от предыдущей ветки.
 7. DVC удобен для выполненного слияния данных вместе с Git-ветками.
    ClearML может быть удобнее для поиска версий через UI и связи с экспериментами;
-   практическое сравнение будет дополнено после его запуска.
+   выполненная проверка подтвердила получение каждой версии по отдельному ID.
