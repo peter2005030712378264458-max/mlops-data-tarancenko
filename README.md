@@ -65,4 +65,15 @@ git config merge.dvc.driver "poetry run dvc git-hook merge-driver --ancestor %O 
 CSV и cache в Git не входят. Для восстановления на другой машине ей нужен
 доступ к содержимому DVC remote.
 
-Часть ClearML отложена. Результаты выполненной части — в `REPORT.md`.
+## ClearML
+
+После `clearml-init` в активированном окружении Python 3.12:
+
+```bash
+python clearml_versions.py
+```
+
+Скрипт создаёт три версии, скачивает их и записывает IDs и результаты проверок
+в `REPORT.md`. Ключи читает из пользовательских настроек ClearML.
+При повторном запуске использует IDs, уже записанные в отчёт.
+Исходные CSV сохраняет в `clearml_sources`, скачанные — в `downloads`.
