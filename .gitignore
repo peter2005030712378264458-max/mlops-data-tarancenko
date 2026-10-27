@@ -1,7 +1,9 @@
 /data/
+*.csv
 /.venv/
 /clearml.conf
 /.env
+/.env.*
 /downloads/
 /clearml_sources/
 __pycache__/
